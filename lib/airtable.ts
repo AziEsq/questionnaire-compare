@@ -56,6 +56,12 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
       })
       .all();
 
+    // Log the first record to see what fields are available
+    if (records.length > 0) {
+      console.log('Sample candidate fields:', Object.keys(records[0].fields));
+      console.log('Sample candidate data:', records[0].fields);
+    }
+
     return records.map(record => ({
       id: record.id,
       name: record.fields.Name as string,
