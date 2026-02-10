@@ -41,36 +41,15 @@ export default function QuestionNavigator({
 
   return (
     <div className="mb-8">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-3">
-          <span className="px-4 py-2 bg-indigo-100 text-indigo-700 font-semibold rounded-full text-sm">
-            Question {currentIndex + 1} of {questions.length}
-          </span>
-        </div>
-        <select
-          value={currentQuestion.key}
-          onChange={(e) => updateQuery({ q: e.target.value })}
-          className="px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium hover:border-blue-400 transition-colors"
-        >
-          {questions.map((question, idx) => (
-            <option key={question.key} value={question.key}>
-              Q{idx + 1}: {question.question.substring(0, 60)}...
-            </option>
-          ))}
-        </select>
+      {/* Question counter */}
+      <div className="flex items-center gap-3 mb-4">
+        <span className="px-4 py-2 bg-indigo-100 text-indigo-700 font-semibold rounded-full text-sm">
+          Question {currentIndex + 1} of {questions.length}
+        </span>
       </div>
 
-      <div className="bg-gradient-to-br from-white to-blue-50 border-2 border-blue-200 rounded-xl p-8 mb-6 shadow-md">
-        <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
-          <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold uppercase rounded-full tracking-wide">
-            {currentQuestion.topic}
-          </span>
-          <span className="text-sm text-gray-600 font-medium">{currentQuestion.organization}</span>
-        </div>
-        <p className="text-xl font-semibold text-gray-900 leading-relaxed">{currentQuestion.question}</p>
-      </div>
-
-      <div className="flex justify-between gap-4">
+      {/* Previous/Next buttons */}
+      <div className="flex justify-between gap-4 mb-4">
         <button
           onClick={goToPrevious}
           disabled={currentIndex === 0}
@@ -85,6 +64,30 @@ export default function QuestionNavigator({
         >
           Next →
         </button>
+      </div>
+
+      {/* Question dropdown */}
+      <select
+        value={currentQuestion.key}
+        onChange={(e) => updateQuery({ q: e.target.value })}
+        className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium hover:border-blue-400 transition-colors mb-6"
+      >
+        {questions.map((question, idx) => (
+          <option key={question.key} value={question.key}>
+            Q{idx + 1}: {question.question.substring(0, 60)}...
+          </option>
+        ))}
+      </select>
+
+      {/* Question card */}
+      <div className="bg-gradient-to-br from-white to-blue-50 border-2 border-blue-200 rounded-xl p-8 shadow-md">
+        <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+          <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold uppercase rounded-full tracking-wide">
+            {currentQuestion.topic}
+          </span>
+          <span className="text-sm text-gray-600 font-medium">{currentQuestion.organization}</span>
+        </div>
+        <p className="text-xl font-semibold text-gray-900 leading-relaxed">{currentQuestion.question}</p>
       </div>
     </div>
   );
