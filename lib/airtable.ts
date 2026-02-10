@@ -16,6 +16,7 @@ export interface Candidate {
   lastName: string;
   race: string;
   photo?: string;
+  overTenPercent?: boolean;
 }
 
 export interface Question {
@@ -71,6 +72,7 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
     const candidates = records.map(record => {
       const photoField = record.fields.Photo as any;
       const photoUrl = photoField?.[0]?.thumbnails?.large?.url || photoField?.[0]?.url;
+      const overTen = record.fields['Over 10pct in Polls?'] === 'Yes';
 
       return {
         id: record.id,
@@ -78,6 +80,7 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
         lastName: record.fields.LastName as string,
         race: raceName,
         photo: photoUrl,
+        overTenPercent: overTen,
       };
     });
 

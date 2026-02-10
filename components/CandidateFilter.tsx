@@ -26,8 +26,11 @@ export default function CandidateFilter({
     updateQuery({ candidates: candidates.map((c) => c.name) });
   };
 
-  const clearAll = () => {
-    updateQuery({ candidates: null });
+  const selectLeadingCandidates = () => {
+    const leadingCandidates = candidates
+      .filter((c) => c.overTenPercent)
+      .map((c) => c.name);
+    updateQuery({ candidates: leadingCandidates.length > 0 ? leadingCandidates : null });
   };
 
   if (candidates.length === 0) return null;
@@ -38,7 +41,7 @@ export default function CandidateFilter({
         <label className="block text-sm font-semibold text-gray-800">
           👥 Select Candidates
         </label>
-        <div className="space-x-3">
+        <div className="flex flex-wrap gap-3">
           <button
             onClick={selectAll}
             className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline transition-colors"
@@ -46,10 +49,10 @@ export default function CandidateFilter({
             Select All
           </button>
           <button
-            onClick={clearAll}
-            className="text-sm font-medium text-gray-600 hover:text-gray-800 hover:underline transition-colors"
+            onClick={selectLeadingCandidates}
+            className="text-sm font-medium text-green-600 hover:text-green-800 hover:underline transition-colors"
           >
-            Clear All
+            Select Leading Candidates (10%+)
           </button>
         </div>
       </div>
