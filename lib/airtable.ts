@@ -73,7 +73,7 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
     const candidates = records.map(record => {
       const photoField = record.fields.Photo as any;
       const photoUrl = photoField?.[0]?.thumbnails?.large?.url || photoField?.[0]?.url;
-      const pollField = record.fields['Over 10pct in Polls?'];
+      const pollField = record.fields.OverTenPercent;
 
       // Handle different possible values: 'Yes', 'yes', true, 'True', etc.
       const overTen = pollField === 'Yes' || pollField === 'yes' || pollField === true || pollField === 'True';
