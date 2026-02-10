@@ -30,6 +30,7 @@ export default async function Home({ searchParams }: PageProps) {
 
   const races = await fetchRaces();
   const selectedRace = params.race || races[0]?.key || null;
+  const selectedRaceData = races.find(r => r.key === selectedRace);
   const selectedTopic = params.topic || 'All';
   const selectedOrganization = params.org || null;
 
@@ -63,8 +64,11 @@ export default async function Home({ searchParams }: PageProps) {
           <h1 className="text-5xl font-bold mb-3">
             Questionnaire Compare
           </h1>
-          <p className="text-blue-100 text-lg">
+          <p className="text-blue-100 text-lg mb-2">
             Compare candidate responses side-by-side to make informed decisions
+          </p>
+          <p className="text-blue-200 text-sm italic">
+            A project by Skokie Jewish Nexus
           </p>
         </div>
       </div>
@@ -79,6 +83,7 @@ export default async function Home({ searchParams }: PageProps) {
               <OrganizationSelector
                 organizations={organizations}
                 selectedOrganization={selectedOrganization}
+                sourceUrl={selectedRaceData?.source}
               />
               <CandidateFilter
                 candidates={candidates}

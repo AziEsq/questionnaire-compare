@@ -8,6 +8,7 @@ export interface Race {
   id: string;
   key: string;        // "2026-P-Federal-IL9"
   displayName: string; // "2026 Primary Congress IL 9"
+  source?: string;    // URL to the source document
 }
 
 export interface Candidate {
@@ -47,6 +48,7 @@ export async function fetchRaces(): Promise<Race[]> {
       id: record.id,
       key: record.fields.Name as string,
       displayName: record.fields.Race as string,
+      source: record.fields.Source as string,
     }));
   } catch (error) {
     console.error('Error fetching races:', error);
@@ -72,7 +74,11 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
     const candidates = records.map(record => {
       const photoField = record.fields.Photo as any;
       const photoUrl = photoField?.[0]?.thumbnails?.large?.url || photoField?.[0]?.url;
-      const overTen = record.fields['Over 10pct in Polls?'] === 'Yes';
+      const pollField = record.fields['Over 10pct in Polls?'];
+      const overTen = pollField === 'Yes';
+
+      // Debug logging for poll field
+      console.log(`${record.fields['Full Name']}: Poll field = "${pollField}", overTen = ${overTen}`);
 
       return {
         id: record.id,

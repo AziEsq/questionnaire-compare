@@ -5,11 +5,13 @@ import { useQueryState } from '@/lib/useQueryState';
 interface OrganizationSelectorProps {
   organizations: string[];
   selectedOrganization: string | null;
+  sourceUrl?: string;
 }
 
 export default function OrganizationSelector({
   organizations,
   selectedOrganization,
+  sourceUrl,
 }: OrganizationSelectorProps) {
   const { updateQuery } = useQueryState();
 
@@ -17,9 +19,21 @@ export default function OrganizationSelector({
 
   return (
     <div className="mb-8">
-      <label htmlFor="org-select" className="block text-sm font-semibold text-gray-800 mb-3">
-        📋 Select Questionnaire Source
-      </label>
+      <div className="flex items-center justify-between mb-3">
+        <label htmlFor="org-select" className="block text-sm font-semibold text-gray-800">
+          📋 Select Questionnaire Source
+        </label>
+        {sourceUrl && (
+          <a
+            href={sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            (source)
+          </a>
+        )}
+      </div>
       <select
         id="org-select"
         value={selectedOrganization || ''}
