@@ -64,7 +64,7 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
 
     return records.map(record => ({
       id: record.id,
-      name: record.fields.Name as string,
+      name: record.fields['Full Name'] as string,
       race: raceName,
     }));
   } catch (error) {
@@ -128,7 +128,7 @@ export async function fetchAnswersForQuestion(questionId: string): Promise<Answe
             answers.push({
               candidate: {
                 id: candidateLinks[0],
-                name: candidateRecord.fields.Name as string,
+                name: candidateRecord.fields['Full Name'] as string,
               },
               answer: record.fields.Answer as string,
               source: record.fields.Source as string,
