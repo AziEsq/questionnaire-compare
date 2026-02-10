@@ -29,9 +29,12 @@ export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
 
   const races = await fetchRaces();
-  const selectedRace = params.race || races[0]?.key || null;
+  const organizations = await fetchOrganizations();
+
+  // Default to IL 9 race and JUF organization if not specified
+  const selectedRace = params.race || races.find(r => r.displayName.includes('IL 9'))?.key || races[0]?.key || null;
+  const selectedOrganization = params.org || (organizations.includes('JUF') ? 'JUF' : organizations[0] || null);
   const selectedTopic = params.topic || 'All';
-  const selectedOrganization = params.org || null;
 
   // Fetch data based on selected race
   const candidates = selectedRace ? await fetchCandidatesByRace(selectedRace) : [];
@@ -39,7 +42,6 @@ export default async function Home({ searchParams }: PageProps) {
     ? await fetchQuestionsByRace(selectedRace, selectedTopic, selectedOrganization || undefined)
     : [];
   const topics = await fetchTopics();
-  const organizations = await fetchOrganizations();
 
   // Parse selected candidates from URL
   const selectedCandidateNames = params.candidates
