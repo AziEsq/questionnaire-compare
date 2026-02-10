@@ -11,7 +11,7 @@ interface AnswerGridProps {
 export default function AnswerGrid({ answers, selectedCandidates }: AnswerGridProps) {
   // Filter answers to only show selected candidates
   const filteredAnswers = selectedCandidates.length > 0
-    ? answers.filter((a) => selectedCandidates.includes(a.candidate.name))
+    ? answers.filter((a) => a.candidate?.name && selectedCandidates.includes(a.candidate.name))
     : answers;
 
   if (filteredAnswers.length === 0) {
@@ -43,14 +43,18 @@ function AnswerCard({ answer }: { answer: Answer }) {
   const [expanded, setExpanded] = useState(false);
   const shouldTruncate = answer.answer.length > 300;
 
+  // Safely get candidate name and initial
+  const candidateName = answer.candidate?.name || 'Unknown';
+  const candidateInitial = candidateName.charAt(0).toUpperCase();
+
   return (
     <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:shadow-xl hover:border-blue-300 transition-all duration-200 flex flex-col h-full">
       <div className="flex-shrink-0 mb-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-            {answer.candidate.name.charAt(0)}
+            {candidateInitial}
           </div>
-          <h3 className="font-bold text-xl text-gray-900">{answer.candidate.name}</h3>
+          <h3 className="font-bold text-xl text-gray-900">{candidateName}</h3>
         </div>
       </div>
 
