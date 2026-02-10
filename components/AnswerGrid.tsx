@@ -45,20 +45,29 @@ function AnswerCard({ answer }: { answer: Answer }) {
 
   // Safely get candidate name and initial
   const candidateName = answer.candidate?.name || 'Unknown';
+  const candidatePhoto = answer.candidate?.photo;
   const candidateInitial = candidateName.charAt(0).toUpperCase();
 
   return (
     <div className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:shadow-xl hover:border-blue-300 transition-all duration-200 flex flex-col h-full">
       <div className="flex-shrink-0 mb-4">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-            {candidateInitial}
-          </div>
+        <div className="flex items-center gap-3 mb-2">
+          {candidatePhoto ? (
+            <img
+              src={candidatePhoto}
+              alt={candidateName}
+              className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+            />
+          ) : (
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+              {candidateInitial}
+            </div>
+          )}
           <h3 className="font-bold text-xl text-gray-900">{candidateName}</h3>
         </div>
       </div>
 
-      <div className="flex-grow text-gray-700 text-base leading-relaxed mb-4">
+      <div className="flex-grow text-gray-700 text-base leading-relaxed">
         {shouldTruncate && !expanded ? (
           <>
             {answer.answer.substring(0, 300)}...
@@ -83,20 +92,6 @@ function AnswerCard({ answer }: { answer: Answer }) {
           </>
         )}
       </div>
-
-      {answer.source && (
-        <div className="flex-shrink-0 pt-4 border-t border-gray-200">
-          <a
-            href={answer.source}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-800 hover:gap-3 transition-all"
-          >
-            <span>View Source</span>
-            <span className="text-lg">→</span>
-          </a>
-        </div>
-      )}
     </div>
   );
 }

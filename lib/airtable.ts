@@ -13,6 +13,7 @@ export interface Candidate {
   id: string;
   name: string;
   race: string;
+  photo?: string;
 }
 
 export interface Question {
@@ -28,6 +29,7 @@ export interface Answer {
   candidate: {
     id: string;
     name: string;
+    photo?: string;
   };
   answer: string;
   source?: string;
@@ -62,11 +64,17 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
       console.log('Sample candidate data:', records[0].fields);
     }
 
-    return records.map(record => ({
-      id: record.id,
-      name: record.fields['Full Name'] as string,
-      race: raceName,
-    }));
+    return records.map(record => {
+      const photoField = record.fields.Photo as any;
+      const photoUrl = photoField?.[0]?.thumbnails?.large?.url || photoField?.[0]?.url;
+
+      return {
+        id: record.id,
+        name: record.fields['Full Name'] as string,
+        race: raceName,
+        photo: photoUrl,
+      };
+    });
   } catch (error) {
     console.error(`Error fetching candidates for race "${raceName}":`, error);
     throw new Error(`Failed to fetch candidates for race: ${raceName}`);
@@ -122,13 +130,16 @@ export async function fetchAnswersForQuestion(questionId: string): Promise<Answe
         const candidateLinks = record.fields.Candidate as string[];
         if (candidateLinks && candidateLinks.length > 0) {
           try {
-            // Fetch candidate name
+            // Fetch candidate data
             const candidateRecord = await base('Candidates').find(candidateLinks[0]);
+            const photoField = candidateRecord.fields.Photo as any;
+            const photoUrl = photoField?.[0]?.thumbnails?.large?.url || photoField?.[0]?.url;
 
             answers.push({
               candidate: {
                 id: candidateLinks[0],
                 name: candidateRecord.fields['Full Name'] as string,
+                photo: photoUrl,
               },
               answer: record.fields.Answer as string,
               source: record.fields.Source as string,
