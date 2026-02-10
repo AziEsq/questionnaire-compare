@@ -83,15 +83,25 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
   }
 }
 
-// Fetch questions for a specific race, optionally filtered by topic
+// Fetch questions for a specific race, optionally filtered by topic and organization
 export async function fetchQuestionsByRace(
   raceName: string,
-  topic?: string
+  topic?: string,
+  organization?: string
 ): Promise<Question[]> {
   try {
     let filterFormula = `{Race} = '${raceName}'`;
+
+    const conditions = [`{Race} = '${raceName}'`];
     if (topic && topic !== 'All') {
-      filterFormula = `AND({Race} = '${raceName}', {Topic} = '${topic}')`;
+      conditions.push(`{Topic} = '${topic}'`);
+    }
+    if (organization) {
+      conditions.push(`{Organization} = '${organization}'`);
+    }
+
+    if (conditions.length > 1) {
+      filterFormula = `AND(${conditions.join(', ')})`;
     }
 
     const records = await base('Questions')
@@ -181,5 +191,28 @@ export async function fetchTopics(): Promise<string[]> {
   } catch (error) {
     console.error('Error fetching topics:', error);
     throw new Error('Failed to fetch topics from Airtable');
+  }
+}
+
+// Get all unique organizations
+export async function fetchOrganizations(): Promise<string[]> {
+  try {
+    const records = await base('Questions')
+      .select({
+        fields: ['Organization'],
+      })
+      .all();
+
+    const organizations = new Set<string>();
+    records.forEach(record => {
+      if (record.fields.Organization) {
+        organizations.add(record.fields.Organization as string);
+      }
+    });
+
+    return Array.from(organizations).sort();
+  } catch (error) {
+    console.error('Error fetching organizations:', error);
+    throw new Error('Failed to fetch organizations from Airtable');
   }
 }

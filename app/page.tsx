@@ -4,12 +4,14 @@ import {
   fetchQuestionsByRace,
   fetchAnswersForQuestion,
   fetchTopics,
+  fetchOrganizations,
 } from '@/lib/airtable';
 import RaceSelector from '@/components/RaceSelector';
 import CandidateFilter from '@/components/CandidateFilter';
 import TopicFilter from '@/components/TopicFilter';
 import QuestionNavigator from '@/components/QuestionNavigator';
 import AnswerGrid from '@/components/AnswerGrid';
+import OrganizationSelector from '@/components/OrganizationSelector';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +20,7 @@ interface PageProps {
     race?: string;
     candidates?: string;
     topic?: string;
+    org?: string;
     q?: string;
   }>;
 }
@@ -28,13 +31,15 @@ export default async function Home({ searchParams }: PageProps) {
   const races = await fetchRaces();
   const selectedRace = params.race || races[0]?.key || null;
   const selectedTopic = params.topic || 'All';
+  const selectedOrganization = params.org || null;
 
   // Fetch data based on selected race
   const candidates = selectedRace ? await fetchCandidatesByRace(selectedRace) : [];
   const questions = selectedRace
-    ? await fetchQuestionsByRace(selectedRace, selectedTopic)
+    ? await fetchQuestionsByRace(selectedRace, selectedTopic, selectedOrganization || undefined)
     : [];
   const topics = await fetchTopics();
+  const organizations = await fetchOrganizations();
 
   // Parse selected candidates from URL
   const selectedCandidateNames = params.candidates
@@ -71,6 +76,10 @@ export default async function Home({ searchParams }: PageProps) {
 
           {selectedRace && (
             <>
+              <OrganizationSelector
+                organizations={organizations}
+                selectedOrganization={selectedOrganization}
+              />
               <CandidateFilter
                 candidates={candidates}
                 selectedCandidates={selectedCandidateNames}
