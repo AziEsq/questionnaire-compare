@@ -41,14 +41,16 @@ export default function QuestionNavigator({
 
   return (
     <div className="mb-8">
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-sm text-gray-600">
-          Question {currentIndex + 1} of {questions.length}
-        </span>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <span className="px-4 py-2 bg-indigo-100 text-indigo-700 font-semibold rounded-full text-sm">
+            Question {currentIndex + 1} of {questions.length}
+          </span>
+        </div>
         <select
           value={currentQuestion.key}
           onChange={(e) => updateQuery({ q: e.target.value })}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium hover:border-blue-400 transition-colors"
         >
           {questions.map((question, idx) => (
             <option key={question.key} value={question.key}>
@@ -58,28 +60,28 @@ export default function QuestionNavigator({
         </select>
       </div>
 
-      <div className="bg-white border rounded-lg p-6 mb-4">
-        <div className="flex items-start justify-between mb-2">
-          <span className="text-xs font-medium text-blue-600 uppercase">
+      <div className="bg-gradient-to-br from-white to-blue-50 border-2 border-blue-200 rounded-xl p-8 mb-6 shadow-md">
+        <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+          <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold uppercase rounded-full tracking-wide">
             {currentQuestion.topic}
           </span>
-          <span className="text-xs text-gray-500">{currentQuestion.organization}</span>
+          <span className="text-sm text-gray-600 font-medium">{currentQuestion.organization}</span>
         </div>
-        <p className="text-lg font-medium text-gray-900">{currentQuestion.question}</p>
+        <p className="text-xl font-semibold text-gray-900 leading-relaxed">{currentQuestion.question}</p>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <button
           onClick={goToPrevious}
           disabled={currentIndex === 0}
-          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
         >
           ← Previous
         </button>
         <button
           onClick={goToNext}
           disabled={currentIndex === questions.length - 1}
-          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-400 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
         >
           Next →
         </button>

@@ -13,19 +13,19 @@ export default function TopicFilter({ topics, selectedTopic }: TopicFilterProps)
   const allTopics = ['All', ...topics];
 
   return (
-    <div className="mb-6">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Filter by Topic
+    <div>
+      <label className="block text-sm font-semibold text-gray-800 mb-3">
+        🏷️ Filter by Topic
       </label>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-3">
         {allTopics.map((topic) => (
           <button
             key={topic}
             onClick={() => updateQuery({ topic: topic === 'All' ? null : topic, q: null })}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+            className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
               selectedTopic === topic
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md scale-105'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-sm'
             }`}
           >
             {topic}

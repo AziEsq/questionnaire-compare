@@ -51,18 +51,22 @@ export default async function Home({ searchParams }: PageProps) {
     : [];
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <header className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Hero Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <h1 className="text-5xl font-bold mb-3">
             Questionnaire Compare
           </h1>
-          <p className="text-gray-600">
-            Compare candidate responses side-by-side
+          <p className="text-blue-100 text-lg">
+            Compare candidate responses side-by-side to make informed decisions
           </p>
-        </header>
+        </div>
+      </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Filters Card */}
+        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8 mb-8">
           <RaceSelector races={races} selectedRace={selectedRace} />
 
           {selectedRace && (
