@@ -30,7 +30,6 @@ export default async function Home({ searchParams }: PageProps) {
 
   const races = await fetchRaces();
   const selectedRace = params.race || races[0]?.key || null;
-  const selectedRaceData = races.find(r => r.key === selectedRace);
   const selectedTopic = params.topic || 'All';
   const selectedOrganization = params.org || null;
 
@@ -83,7 +82,7 @@ export default async function Home({ searchParams }: PageProps) {
               <OrganizationSelector
                 organizations={organizations}
                 selectedOrganization={selectedOrganization}
-                sourceUrl={selectedRaceData?.source}
+                sourceUrl={questions[0]?.source}
               />
               <CandidateFilter
                 candidates={candidates}

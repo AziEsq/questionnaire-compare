@@ -27,9 +27,11 @@ export default function CandidateFilter({
   };
 
   const selectLeadingCandidates = () => {
+    console.log('All candidates:', candidates.map(c => ({ name: c.name, overTenPercent: c.overTenPercent })));
     const leadingCandidates = candidates
       .filter((c) => c.overTenPercent)
       .map((c) => c.name);
+    console.log('Leading candidates:', leadingCandidates);
     updateQuery({ candidates: leadingCandidates.length > 0 ? leadingCandidates : null });
   };
 

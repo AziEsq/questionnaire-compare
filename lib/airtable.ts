@@ -8,7 +8,6 @@ export interface Race {
   id: string;
   key: string;        // "2026-P-Federal-IL9"
   displayName: string; // "2026 Primary Congress IL 9"
-  source?: string;    // URL to the source document
 }
 
 export interface Candidate {
@@ -27,6 +26,7 @@ export interface Question {
   topic: string;
   organization: string;
   race: string;
+  source?: string;
 }
 
 export interface Answer {
@@ -48,7 +48,6 @@ export async function fetchRaces(): Promise<Race[]> {
       id: record.id,
       key: record.fields.Name as string,
       displayName: record.fields.Race as string,
-      source: record.fields.Source as string,
     }));
   } catch (error) {
     console.error('Error fetching races:', error);
@@ -135,6 +134,7 @@ export async function fetchQuestionsByRace(
       topic: record.fields.Topic as string,
       organization: record.fields.Organization as string,
       race: raceName,
+      source: record.fields.Source as string,
     }));
   } catch (error) {
     console.error(`Error fetching questions for race "${raceName}":`, error);
