@@ -13,6 +13,7 @@ export interface Race {
 export interface Candidate {
   id: string;
   name: string;
+  lastName: string;
   race: string;
   photo?: string;
 }
@@ -30,6 +31,7 @@ export interface Answer {
   candidate: {
     id: string;
     name: string;
+    lastName: string;
     photo?: string;
   };
   answer: string;
@@ -66,17 +68,23 @@ export async function fetchCandidatesByRace(raceName: string): Promise<Candidate
       console.log('Sample candidate data:', records[0].fields);
     }
 
-    return records.map(record => {
+    const candidates = records.map(record => {
       const photoField = record.fields.Photo as any;
       const photoUrl = photoField?.[0]?.thumbnails?.large?.url || photoField?.[0]?.url;
 
       return {
         id: record.id,
         name: record.fields['Full Name'] as string,
+        lastName: record.fields.LastName as string,
         race: raceName,
         photo: photoUrl,
       };
     });
+
+    // Sort by last name alphabetically
+    return candidates.sort((a, b) =>
+      (a.lastName || '').localeCompare(b.lastName || '')
+    );
   } catch (error) {
     console.error(`Error fetching candidates for race "${raceName}":`, error);
     throw new Error(`Failed to fetch candidates for race: ${raceName}`);
@@ -151,6 +159,7 @@ export async function fetchAnswersForQuestion(questionId: string): Promise<Answe
               candidate: {
                 id: candidateLinks[0],
                 name: candidateRecord.fields['Full Name'] as string,
+                lastName: candidateRecord.fields.LastName as string,
                 photo: photoUrl,
               },
               answer: record.fields.Answer as string,
@@ -164,7 +173,10 @@ export async function fetchAnswersForQuestion(questionId: string): Promise<Answe
       }
     }
 
-    return answers;
+    // Sort answers by candidate last name alphabetically
+    return answers.sort((a, b) =>
+      (a.candidate.lastName || '').localeCompare(b.candidate.lastName || '')
+    );
   } catch (error) {
     console.error(`Error fetching answers for question "${questionId}":`, error);
     throw new Error(`Failed to fetch answers for question: ${questionId}`);
