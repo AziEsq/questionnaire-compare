@@ -6,7 +6,8 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 
 export interface Race {
   id: string;
-  name: string;
+  key: string;        // "2026-P-Federal-IL9"
+  displayName: string; // "2026 Primary Congress IL 9"
 }
 
 export interface Candidate {
@@ -41,7 +42,8 @@ export async function fetchRaces(): Promise<Race[]> {
     const records = await base('Races').select().all();
     return records.map(record => ({
       id: record.id,
-      name: record.fields.Name as string,
+      key: record.fields.Name as string,
+      displayName: record.fields.Race as string,
     }));
   } catch (error) {
     console.error('Error fetching races:', error);

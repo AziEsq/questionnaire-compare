@@ -24,8 +24,8 @@ export default function RaceSelector({ races, selectedRace }: RaceSelectorProps)
       >
         <option value="">Select a race...</option>
         {races.map((race) => (
-          <option key={race.id} value={race.name}>
-            {race.name}
+          <option key={race.id} value={race.key}>
+            {race.displayName}
           </option>
         ))}
       </select>

@@ -26,7 +26,7 @@ export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
 
   const races = await fetchRaces();
-  const selectedRace = params.race || races[0]?.name || null;
+  const selectedRace = params.race || races[0]?.key || null;
   const selectedTopic = params.topic || 'All';
 
   // Fetch data based on selected race
