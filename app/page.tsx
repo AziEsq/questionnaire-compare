@@ -13,7 +13,7 @@ import QuestionNavigator from '@/components/QuestionNavigator';
 import AnswerGrid from '@/components/AnswerGrid';
 import OrganizationSelector from '@/components/OrganizationSelector';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 21600; // Cache for 6 hours
 
 interface PageProps {
   searchParams: Promise<{
