@@ -13,8 +13,7 @@ import QuestionNavigator from '@/components/QuestionNavigator';
 import AnswerGrid from '@/components/AnswerGrid';
 import OrganizationSelector from '@/components/OrganizationSelector';
 
-export const dynamic = 'force-static';
-export const revalidate = false; // Never auto-revalidate
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
   searchParams: Promise<{
