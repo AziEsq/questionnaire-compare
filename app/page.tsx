@@ -12,6 +12,7 @@ import TopicFilter from '@/components/TopicFilter';
 import QuestionNavigator from '@/components/QuestionNavigator';
 import AnswerGrid from '@/components/AnswerGrid';
 import OrganizationSelector from '@/components/OrganizationSelector';
+import Link from 'next/link';
 
 export const revalidate = 21600; // Cache for 6 hours
 
@@ -63,13 +64,15 @@ export default async function Home({ searchParams }: PageProps) {
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <h1 className="text-5xl font-bold mb-3">
-            Questionnaire Compare
+            <Link href="/" className="hover:text-blue-100 transition-colors cursor-pointer">
+              Questionnaire Compare
+            </Link>
           </h1>
           <p className="text-blue-100 text-lg mb-2">
             Compare candidate responses side-by-side to make informed decisions
           </p>
           <p className="text-blue-200 text-sm italic">
-            A project by Skokie Jewish Nexus
+            A project by <a href="https://skokiejewishnexus.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">Skokie Jewish Nexus</a>
           </p>
         </div>
       </div>
